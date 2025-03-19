@@ -1,11 +1,12 @@
 from itertools import product
+from os import name
 
 
 class Product:
-    name:str
+    name: str
     price: float
 
-    def __init__(self,name,price):
+    def __init__(self, name, price):
         self.name = name
         self.price = price
 
@@ -15,6 +16,9 @@ class Product:
     def get_name(self):
         return self.name
 
+    def __str__(self):
+        return f"Product(name='{self.name}', price={self.price})"
+
 
 class Inventory:
     products = []
@@ -22,22 +26,49 @@ class Inventory:
     def __init__(self):
         self.products = []
 
-    def add_product(self,product: Product):
-        pass
+    def _is_empty_list(self) -> bool:
+        if len(self.products) == 0:
+            print("The inventory list is empty")
+            return True
+        else:
+            return False
 
-    def remove_product(self,product_name: str):
-        pass
+    def _is_product_already_exist(self, product: Product) -> bool:
+        if not self._is_empty_list():
+            for product_ in self.products:
+                if product.name == product_.name:
+                    print(f"{product.name} is already exist")
+                    return True
+            return False
 
-    def get_product(self,product_name: str)-> Product :
-        pass
+    def add_product(self, product: Product):
+        if not self._is_product_already_exist(product=product):
+            self.products.append(product)
+
+    def remove_product(self, product_name: str):
+        if not self._is_empty_list():
+            for product in self.products:
+                if product.name.lower() == product_name.lower():
+                    self.products.remove(product)
+                    print(f"Product '{name}' removed.")
+            print(f"Product with name '{name}' not found.")
+
+    def get_product(self, product_name: str) -> Product:
+        if not self._is_empty_list():
+            for product in self.products:
+                if product_name == product.name:
+                    return product
+            print(f"{product_name} product is not exist")
+            return None
 
     def total_inventory_value(self) -> float:
-        pass
+        if not self._is_empty_list():
+            total_inventory_value = 0
+            for product in self.products:
+                total_inventory_value += product.price
+            print(f"The total inventories is: {total_inventory_value} ")
+            return total_inventory_value
 
-
-
-
-
-
-
+    def __str__(self):
+        return '\n'.join(str(product) for product in self.products)
 
