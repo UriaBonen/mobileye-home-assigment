@@ -1,9 +1,5 @@
 import random
-from idlelib.util import py_extensions
-from itertools import product
-
 import pytest
-
 from Inventory import Product
 from conftest import inventory
 from data import products
@@ -40,13 +36,12 @@ def test_calculate_total_prices(inventory):
         total_price += product.price
     assert total_price == inventory.total_inventory_value()
 
+
 def test_negative_product_price(inventory):
     with pytest.raises(ValueError, match="Price cannot be negative"):
         Product("Invalid Product", -10)
 
+
 def test_get_non_existing_product(inventory):
     product = random.choice(products)
     assert inventory.get_product(product) is None
-
-
-

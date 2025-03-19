@@ -1,5 +1,5 @@
-from itertools import product
 from os import name
+from typing import Any
 
 
 class Product:
@@ -63,7 +63,7 @@ class Inventory:
                     print(f"Product '{name}' removed.")
             print(f"Product with name '{name}' not found.")
 
-    def get_product(self, product_name: str) -> Product:
+    def get_product(self, product_name: str) -> Any | None:
         if not self._is_empty_list():
             for product in self.products:
                 if product_name == product.name:
