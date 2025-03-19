@@ -8,7 +8,11 @@ class Product:
 
     def __init__(self, name, price):
         self.name = name
-        self.price = price
+        if price >= 0:
+            self.price = price
+        else:
+            raise ValueError("Price cannot be negative")
+
 
     def get_price(self):
         return self.price
@@ -33,22 +37,28 @@ class Inventory:
         else:
             return False
 
-    def _is_product_already_exist(self, product: Product) -> bool:
+    def is_product_exist(self, product: Product) -> bool:
         if not self._is_empty_list():
             for product_ in self.products:
                 if product.name == product_.name:
                     print(f"{product.name} is already exist")
                     return True
             return False
+        else:
+            return False
+
+    @classmethod
+    def clear_products(cls):
+        cls.products.clear()
 
     def add_product(self, product: Product):
-        if not self._is_product_already_exist(product=product):
+        if not self.is_product_exist(product=product):
             self.products.append(product)
 
     def remove_product(self, product_name: str):
         if not self._is_empty_list():
             for product in self.products:
-                if product.name.lower() == product_name.lower():
+                if product.name == product_name:
                     self.products.remove(product)
                     print(f"Product '{name}' removed.")
             print(f"Product with name '{name}' not found.")
@@ -71,4 +81,3 @@ class Inventory:
 
     def __str__(self):
         return '\n'.join(str(product) for product in self.products)
-
